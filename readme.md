@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Same project for One Design Company. This project uses Webpack 5 and requires Node.js version 10.13.0+.
+Sample project for One Design Company. This project uses Webpack 5 and requires Node.js version 10.13.0+.
 
 ## Installation
 
