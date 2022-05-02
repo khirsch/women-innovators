@@ -1,0 +1,310 @@
+// Load Fonts
+$fontList:
+Px-Grotesk-Bold
+Px-Grotesk-Regular
+;
+
+// Mixins
+@each $fontName in $fontList {
+  $i: index($fontList, $fontName);
+  @font-face {
+    font-family: unquote("\"#{$fontName}\"");
+    font-style: normal;
+    font-weight: normal;
+    src: unquote("url(\"../fonts/#{$fontName}.woff2\") format(\"woff2\"), url(\"../fonts/#{$fontName}.woff\") format(\"woff\")");
+  }
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+      @media screen and (min-width: $min-vw) {
+        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+      }
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}
+
+// Min/Max Widths
+$ft_min-width: 850px;
+$ft_max-width: 1300px;
+
+// Colors
+$white: #fff;
+$grey: #e5e5e5;
+$blue: #0000ff;
+
+// ------------------------
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  box-sizing: border-box;
+  width: 100%;
+  background: $grey;
+  font-family: 'Px-Grotesk-Regular';
+  line-height: 1;
+  margin: 0;
+}
+
+#page-title {
+  @include fluid-type($ft_min-width, $ft_max-width, 58px, 125px);
+  color: $white;
+  font-weight: normal;
+  margin: 0 0 60px;
+
+  @media screen and (max-width: $ft_min-width) {
+    margin: 0 0 30px;
+  }
+
+  span {
+    font-family: 'Px-Grotesk-Bold';
+  }
+}
+
+#header-top {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: $blue;
+  padding: 225px 80px 0;
+
+  @media screen and (max-width: $ft_min-width) {
+    padding: 130px 25px 0;
+  }
+
+  #header-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin: 45px 0;
+
+    @media screen and (max-width: $ft_min-width) {
+      flex-direction: column;
+      margin: 30px 0 50px;
+    }
+  }
+
+  #header-left, #header-right {
+    flex: 1 1 50%;
+  }
+
+  #header-right {
+    flex-direction: column;
+  }
+
+  hr {
+    width: 100%;
+    margin: 0;
+  }
+
+  #icon {
+    display: block;
+
+    @media screen and (max-width: $ft_min-width) {
+      max-width: 50px;
+    }
+  }
+
+  p {
+    @include fluid-type($ft_min-width, $ft_max-width, 18px, 26px);
+    line-height: 1.25;
+    color: $white;
+    margin: 0 0 35px;
+
+    @media screen and (max-width: $ft_min-width) {
+      max-width: 80vw;
+      margin: 30px 0 40px;
+    }
+  }
+}
+
+.learn-more {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 140px;
+  height: 32px;
+  background: $white;
+  font: 14px/1 'Px-Grotesk-Bold';
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $blue;
+  padding: 0 15px;
+  border: 1px solid $white;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    background: $blue;
+    color: $white;
+    transition: .3s;
+
+    svg path {
+      fill: $white;
+      transition: .3s;
+    }
+  }
+
+  svg {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+
+    path {
+      fill: $blue;
+      transition: .3s;
+    }
+  }
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px 80px;
+  color: $blue;
+
+  @media screen and (max-width: $ft_min-width) {
+    padding: 30px 25px;
+  }
+}
+
+label, select {
+  font: 14px/1 'Px-Grotesk-Bold';
+  text-transform: uppercase;
+}
+
+label {
+  margin: 0 0 10px;
+}
+
+select {
+  position: relative;
+  box-sizing: border-box;
+  width: 415px;
+  border: 1px solid $blue;
+  border-radius: 0;
+  padding: 15px 25px;
+  color: $blue;
+  background: url('../images/caret.svg') $grey center right 25px;
+  background-size: 10px 6px;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+
+  @media screen and (max-width: $ft_min-width) {
+    width: 300px;
+  }
+
+  &:focus, &:focus-visible {
+    outline: 1px solid $blue;
+  }
+}
+
+#details {
+  box-sizing: border-box;
+  display: flex;
+  border: 1px solid $blue;
+  text-decoration: none;
+  color: $blue;
+  width: 738px;
+  height: 444px;
+  margin: 55px 0;
+  transition: .3s;
+
+  @media screen and (max-width: $ft_min-width) {
+    flex-direction: column;
+    width: 100%;
+    max-width: 366px;
+    height: 650px;
+    margin: 30px 0;
+  }
+
+  &:hover {
+    background: $blue;
+    color: $white;
+    transition: .3s;
+  }
+}
+
+#details-left, #details-right {
+  flex: 1 1 50%;
+  height: 100%;
+
+  @media screen and (max-width: $ft_min-width) {
+    flex: none;
+  }
+}
+
+#details-left {
+  @media screen and (max-width: $ft_min-width) {
+    height: 68.5%;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+#details-right {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 30px 30px 30px 20px;
+
+  @media screen and (max-width: $ft_min-width) {
+    height: 31.5%;
+  }
+
+  h2, p {
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 26px;
+    font-weight: normal;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+}
+
+.animated {
+  animation: spin 1s linear;
+}
+
+// Animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
